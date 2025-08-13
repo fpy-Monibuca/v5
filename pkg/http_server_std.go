@@ -1,4 +1,4 @@
-//go:build !fasthttp
+//go:build !fasthttp && !fasthttp_tls
 
 package pkg
 

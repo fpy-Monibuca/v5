@@ -55,7 +55,7 @@ type Channel struct {
 }
 
 func (c *Channel) GetKey() string {
-	return c.ID
+	return c.DeviceID + "_" + c.ChannelID
 }
 
 type PullProxy struct {

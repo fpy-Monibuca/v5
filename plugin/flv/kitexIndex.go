@@ -1,9 +1,10 @@
-//go:build !kitex
+//go:build kitex
 
 package plugin_flv
 
 import (
 	"fmt"
+	"github.com/cloudwego/kitex/server"
 	"net"
 	"net/http"
 	"strings"
@@ -13,12 +14,12 @@ import (
 	"github.com/gobwas/ws/wsutil"
 	m7s "m7s.live/v5"
 	"m7s.live/v5/pkg/util"
-	"m7s.live/v5/plugin/flv/pb"
 	. "m7s.live/v5/plugin/flv/pkg"
+
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 )
 
 type FLVPlugin struct {
-	pb.UnimplementedApiServer
 	m7s.Plugin
 	Path string
 }
@@ -30,10 +31,22 @@ var _ = m7s.InstallPlugin[FLVPlugin](m7s.PluginMeta{
 	DefaultYaml:         defaultConfig,
 	NewPuller:           NewPuller,
 	NewRecorder:         NewRecorder,
-	RegisterGRPCHandler: pb.RegisterApiHandler,
-	ServiceDesc:         &pb.Api_ServiceDesc,
-	NewPullProxy:        m7s.NewHTTPPullPorxy,
+	RegisterGRPCHandler: RegisterService,
+	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+		// TODO FENG 添加服务名
+		ServiceName: "flv.svc",
+	},
+	NewPullProxy: m7s.NewHTTPPullPorxy,
 })
+
+func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.RegisterOption) error {
+	//gb, ok := plugin.(*GB28181Plugin)
+	//if !ok {
+	//	return fmt.Errorf("plugin is not of type *GB28181Plugin")
+	//}
+	//return pb.RegisterService(svr, gb, opts...)
+	return nil
+}
 
 func (plugin *FLVPlugin) OnInit() (err error) {
 	_, port, _ := strings.Cut(plugin.GetCommonConf().HTTP.ListenAddr, ":")

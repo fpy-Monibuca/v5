@@ -1,22 +1,22 @@
-//go:build !kitex
+//go:build kitex
 
 package plugin_rtmp
 
 import (
 	"errors"
 	"fmt"
+	"github.com/cloudwego/kitex/server"
 	"io"
 	"net"
 	"strings"
 
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"m7s.live/v5"
 	"m7s.live/v5/pkg/task"
-	"m7s.live/v5/plugin/rtmp/pb"
 	. "m7s.live/v5/plugin/rtmp/pkg"
 )
 
 type RTMPPlugin struct {
-	pb.UnimplementedApiServer
 	m7s.Plugin
 	ChunkSize int `default:"1024"`
 	KeepAlive bool
@@ -26,13 +26,25 @@ type RTMPPlugin struct {
 var _ = m7s.InstallPlugin[RTMPPlugin](m7s.PluginMeta{
 	DefaultYaml: `tcp:
   listenaddr: :1935`,
-	ServiceDesc:         &pb.Api_ServiceDesc,
-	RegisterGRPCHandler: pb.RegisterApiHandler,
-	NewPusher:           NewPusher,
-	NewPuller:           NewPuller,
-	NewPullProxy:        NewPullProxy,
-	NewPushProxy:        NewPushProxy,
+	RegisterGRPCHandler: RegisterService,
+	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+		// TODO FENG 添加服务名
+		ServiceName: "rtmp.svc",
+	},
+	NewPusher:    NewPusher,
+	NewPuller:    NewPuller,
+	NewPullProxy: NewPullProxy,
+	NewPushProxy: NewPushProxy,
 })
+
+func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.RegisterOption) error {
+	//gb, ok := plugin.(*GB28181Plugin)
+	//if !ok {
+	//	return fmt.Errorf("plugin is not of type *GB28181Plugin")
+	//}
+	//return pb.RegisterService(svr, gb, opts...)
+	return nil
+}
 
 type RTMPServer struct {
 	NetConnection

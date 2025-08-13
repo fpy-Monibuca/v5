@@ -1,19 +1,23 @@
-//go:build !kitex
+//go:build kitex
 
 package plugin_gb28181pro
 
 import (
 	"errors"
 	"fmt"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	"github.com/cloudwego/kitex/server"
 	"m7s.live/v5/pkg"
 	"net/http"
 	"os"
+	"reflect"
 	"slices"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
 
+	pb "gitee.com/fpy-go/kitex_proto/kitex_gen/plugin/gb28181/pb/api"
 	"github.com/emiago/sipgo"
 	"github.com/emiago/sipgo/sip"
 	"github.com/rs/zerolog"
@@ -21,7 +25,6 @@ import (
 	"m7s.live/v5/pkg/config"
 	"m7s.live/v5/pkg/task"
 	"m7s.live/v5/pkg/util"
-	"m7s.live/v5/plugin/gb28181/pb"
 	gb28181 "m7s.live/v5/plugin/gb28181/pkg"
 )
 
@@ -37,8 +40,8 @@ type PositionConfig struct {
 	Interval time.Duration `default:"6s" desc:"订阅间隔"`    //订阅间隔
 }
 
+// GB28181Plugin implements the last service interface defined in the IDL.
 type GB28181Plugin struct {
-	pb.UnimplementedApiServer
 	m7s.Plugin
 	Serial         string `default:"34020000002000000001" desc:"sip 服务 id"` //sip 服务器 id, 默认 34020000002000000001
 	Realm          string `default:"3402000000" desc:"sip 服务域"`             //sip 服务器域，默认 3402000000
@@ -64,8 +67,10 @@ type GB28181Plugin struct {
 }
 
 var _ = m7s.InstallPlugin[GB28181Plugin](m7s.PluginMeta{
-	RegisterGRPCHandler: pb.RegisterApiHandler,
-	ServiceDesc:         &pb.Api_ServiceDesc,
+	RegisterGRPCHandler: RegisterService,
+	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+		ServiceName: "gb28181.svc",
+	},
 	NewPuller: func(conf config.Pull) m7s.IPuller {
 		if util.Exist(conf.URL) {
 			return &gb28181.DumpPuller{}
@@ -74,6 +79,35 @@ var _ = m7s.InstallPlugin[GB28181Plugin](m7s.PluginMeta{
 	},
 	NewPullProxy: NewPullProxy,
 })
+
+func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.RegisterOption) error {
+	// 注册其它service到kitex
+	var gb *GB28181Plugin
+
+	// 尝试直接类型断言
+	if direct, ok := plugin.(*GB28181Plugin); ok {
+		gb = direct
+	} else {
+		// 如果直接断言失败，尝试通过反射查找
+		pluginValue := reflect.ValueOf(plugin)
+		if pluginValue.Kind() == reflect.Ptr {
+			pluginValue = pluginValue.Elem()
+		}
+
+		// 如果是结构体，查找嵌入的 GB28181Plugin 字段
+		if pluginValue.Kind() == reflect.Struct {
+			gbField := pluginValue.FieldByName("Plugin")
+			if gbField.IsValid() && gbField.Type() == reflect.TypeOf(GB28181Plugin{}) {
+				gb = gbField.Addr().Interface().(*GB28181Plugin)
+			}
+		}
+
+		if gb == nil {
+			return fmt.Errorf("cannot convert plugin to *GB28181Plugin, got %T", plugin)
+		}
+	}
+	return pb.RegisterService(svr, gb, opts...)
+}
 
 func init() {
 	sip.SIPDebug = true
@@ -342,11 +376,11 @@ func (gb *GB28181Plugin) checkDeviceExpire() (err error) {
 			if !isExpired {
 				gb.AddTask(device)
 			} else {
-				//gb.devices.Set(device)
-				//_, err := device.queryDeviceInfo()
-				//if err != nil {
-				//	device.Error("queryDeviceInfo when checkDeviceExpire", "err", err)
-				//}
+				gb.devices.Set(device)
+				_, err := device.queryDeviceInfo()
+				if err != nil {
+					device.Error("queryDeviceInfo when checkDeviceExpire", "err", err)
+				}
 			}
 
 			if isExpired {
@@ -429,9 +463,10 @@ func (gb *GB28181Plugin) checkPlatform() {
 }
 
 func (gb *GB28181Plugin) RegisterHandler() map[string]http.HandlerFunc {
-	return map[string]http.HandlerFunc{
-		"/api/ps/replay/{streamPath...}": gb.api_ps_replay,
-	}
+	//return map[string]http.HandlerFunc{
+	//	"/api/ps/replay/{streamPath...}": gb.api_ps_replay,
+	//}
+	return map[string]http.HandlerFunc{}
 }
 
 func (gb *GB28181Plugin) OnRegister(req *sip.Request, tx sip.ServerTransaction) {

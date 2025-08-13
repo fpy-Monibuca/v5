@@ -8,7 +8,7 @@ srt:
   listenaddr: :6000
   passphrase: foobarfoobar
 gb28181:
-  enable: false  # 是否启用GB28181协议
+  enable: true  # 是否启用GB28181协议
   autoinvite: false #建议使用false，开启后会自动邀请设备推流
   mediaip: 192.168.1.21  #流媒体收流IP,外网情况下使用公网IP,内网情况下使用网卡IP,不要用127.0.0.1
   sipip: 192.168.1.21  #SIP通讯IP,不管公网还是内网都使用本机网卡IP,不要用127.0.0.1

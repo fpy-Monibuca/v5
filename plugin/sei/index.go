@@ -1,3 +1,5 @@
+//go:build !kitex
+
 package plugin_sei
 
 import (

@@ -50,6 +50,7 @@ func (c *CascadeServerPlugin) OnInit() (err error) {
 	return
 }
 
+// TODO FENG 需要参考gb28181适配
 var _ = m7s.InstallPlugin[CascadeServerPlugin](m7s.DefaultYaml(`quic:
   listenaddr: :44944`), &pb.Server_ServiceDesc, pb.RegisterServerHandler)
 

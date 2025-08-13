@@ -1,20 +1,21 @@
-//go:build !kitex
+//go:build kitex
 
 package plugin_mp4
 
 import (
 	"fmt"
+	"github.com/cloudwego/kitex/server"
 	"io"
 	"net"
 	"net/http"
 	"strings"
 	"time"
 
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/gobwas/ws/wsutil"
 	"m7s.live/v5"
 	v5 "m7s.live/v5/pkg"
 	"m7s.live/v5/pkg/codec"
-	"m7s.live/v5/plugin/mp4/pb"
 	pkg "m7s.live/v5/plugin/mp4/pkg"
 	"m7s.live/v5/plugin/mp4/pkg/box"
 	rtmp "m7s.live/v5/plugin/rtmp/pkg"
@@ -51,7 +52,6 @@ func (m *MediaContext) Flush() (err error) {
 }
 
 type MP4Plugin struct {
-	pb.UnimplementedApiServer
 	m7s.Plugin
 	BeforeDuration           time.Duration `default:"30s" desc:"事件录像提前时长，不配置则默认30s"`
 	AfterDuration            time.Duration `default:"30s" desc:"事件录像结束时长，不配置则默认30s"`
@@ -69,12 +69,24 @@ const defaultConfig m7s.DefaultYaml = `publish:
 // var exceptionChannel = make(chan *Exception)
 var _ = m7s.InstallPlugin[MP4Plugin](m7s.PluginMeta{
 	DefaultYaml:         defaultConfig,
-	ServiceDesc:         &pb.Api_ServiceDesc,
-	RegisterGRPCHandler: pb.RegisterApiHandler,
-	NewPuller:           pkg.NewPuller,
-	NewRecorder:         pkg.NewRecorder,
-	NewPullProxy:        m7s.NewHTTPPullPorxy,
+	RegisterGRPCHandler: RegisterService,
+	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+		// TODO FENG 添加服务名
+		ServiceName: "mp4.svc",
+	},
+	NewPuller:    pkg.NewPuller,
+	NewRecorder:  pkg.NewRecorder,
+	NewPullProxy: m7s.NewHTTPPullPorxy,
 })
+
+func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.RegisterOption) error {
+	//gb, ok := plugin.(*GB28181Plugin)
+	//if !ok {
+	//	return fmt.Errorf("plugin is not of type *GB28181Plugin")
+	//}
+	//return pb.RegisterService(svr, gb, opts...)
+	return nil
+}
 
 func (p *MP4Plugin) RegisterHandler() map[string]http.HandlerFunc {
 	return map[string]http.HandlerFunc{
