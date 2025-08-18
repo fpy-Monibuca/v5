@@ -7,11 +7,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gitee.com/fpy-go/kitex_proto/kitex_gen/example/shop/item/itemservice"
-	"github.com/cloudwego/kitex/pkg/rpcinfo"
-	"github.com/cloudwego/kitex/server"
-	etcd "github.com/kitex-contrib/registry-etcd"
-	"log"
 	"log/slog"
 	"net"
 	"net/http"
@@ -382,8 +377,6 @@ func (s *Server) Start() (err error) {
 			s.Error("failed to listen", "error", err)
 			return
 		}
-
-		kitexServer(tcpConf.ListenAddr)
 	}
 
 	s.AddTask(&s.Records)
@@ -440,40 +433,6 @@ func (s *Server) Start() (err error) {
 		return nil
 	}, "serverStart")
 	return
-}
-
-func kitexServer(listenAddr string) server.Server {
-	// 使用时请传入真实 etcd 的服务地址，本例中为 127.0.0.1:2379
-	r, err := etcd.NewEtcdRegistry([]string{"127.0.0.1:2379"})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	itemServiceImpl := new(ItemServiceImpl)
-	stockCli, err := NewStockClient("0.0.0.0:8890")
-	if err != nil {
-		log.Fatal(err)
-	}
-	itemServiceImpl.stockCli = stockCli
-
-	addr, _ := net.ResolveTCPAddr("tcp", ":8899")
-	svr := itemservice.NewServer(itemServiceImpl, server.WithServiceAddr(addr),
-		// 指定 Registry 与服务基本信息
-		server.WithRegistry(r),
-		server.WithServerBasicInfo(
-			&rpcinfo.EndpointBasicInfo{
-				ServiceName: "example.shop.item",
-			},
-		),
-	)
-	go func() {
-		err = svr.Run()
-
-		if err != nil {
-			log.Println(err.Error())
-		}
-	}()
-	return svr
 }
 
 func (s *Server) initPullProxies() {

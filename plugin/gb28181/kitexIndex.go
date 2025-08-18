@@ -376,11 +376,11 @@ func (gb *GB28181Plugin) checkDeviceExpire() (err error) {
 			if !isExpired {
 				gb.AddTask(device)
 			} else {
-				gb.devices.Set(device)
-				_, err := device.queryDeviceInfo()
-				if err != nil {
-					device.Error("queryDeviceInfo when checkDeviceExpire", "err", err)
-				}
+				//gb.devices.Set(device)
+				//_, err := device.queryDeviceInfo()
+				//if err != nil {
+				//	device.Error("queryDeviceInfo when checkDeviceExpire", "err", err)
+				//}
 			}
 
 			if isExpired {
