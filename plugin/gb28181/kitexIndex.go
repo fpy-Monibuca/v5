@@ -1,4 +1,5 @@
 //go:build kitex
+// +build kitex
 
 package plugin_gb28181pro
 
@@ -17,7 +18,8 @@ import (
 	"sync"
 	"time"
 
-	pb "gitee.com/fpy-go/kitex_proto/kitex_gen/plugin/gb28181/pb/api"
+	pb "gitee.com/fpy-go/kitex_proto/kitex_gen/plugin/gb28181/pb"
+	pbApi "gitee.com/fpy-go/kitex_proto/kitex_gen/plugin/gb28181/pb/api"
 	"github.com/emiago/sipgo"
 	"github.com/emiago/sipgo/sip"
 	"github.com/rs/zerolog"
@@ -67,8 +69,11 @@ type GB28181Plugin struct {
 }
 
 var _ = m7s.InstallPlugin[GB28181Plugin](m7s.PluginMeta{
-	RegisterGRPCHandler: RegisterService,
-	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+	// TODO ME 如果需要放开grpc server，请补充
+	RegisterGRPCHandler:      nil,
+	ServiceDesc:              &pb.Api_ServiceDesc,
+	KitexRegisterGRPCHandler: RegisterService,
+	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{
 		ServiceName: "gb28181.svc",
 	},
 	NewPuller: func(conf config.Pull) m7s.IPuller {
@@ -80,6 +85,7 @@ var _ = m7s.InstallPlugin[GB28181Plugin](m7s.PluginMeta{
 	NewPullProxy: NewPullProxy,
 })
 
+// TODO ME
 func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.RegisterOption) error {
 	// 注册其它service到kitex
 	var gb *GB28181Plugin
@@ -106,7 +112,7 @@ func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.Regis
 			return fmt.Errorf("cannot convert plugin to *GB28181Plugin, got %T", plugin)
 		}
 	}
-	return pb.RegisterService(svr, gb, opts...)
+	return pbApi.RegisterService(svr, gb, opts...)
 }
 
 func init() {

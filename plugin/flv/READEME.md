@@ -38,6 +38,19 @@ If the live/test stream already exists in M7S, then HTTP-FLV protocol can be use
 ffplay http://localhost:8080/flv/live/test.flv
 ```
 
+```bash
+ffplay http://localhost:8080/flv/live/c1
+```
+
+```bash
+ffplay http://localhost:8081/flv/live/c1
+```
+
+```bash
+ffplay  rtmp://localhost:1936/live/test
+```
+ffmpeg -i rtsp://admin:hw1234567@192.168.9.80/Streaming/Channels/101 -c:v h264 -c:a aac -f flv rtmp://localhost:1935/live/test
+
 ### M7S Pull HTTP-FLV Streams from Remote
 
 The available API is:

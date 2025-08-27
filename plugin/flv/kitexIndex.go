@@ -5,6 +5,7 @@ package plugin_flv
 import (
 	"fmt"
 	"github.com/cloudwego/kitex/server"
+	"m7s.live/v5/plugin/flv/pb"
 	"net"
 	"net/http"
 	"strings"
@@ -20,6 +21,8 @@ import (
 )
 
 type FLVPlugin struct {
+	pb.UnimplementedApiServer
+
 	m7s.Plugin
 	Path string
 }
@@ -28,11 +31,13 @@ const defaultConfig m7s.DefaultYaml = `publish:
   speed: 1`
 
 var _ = m7s.InstallPlugin[FLVPlugin](m7s.PluginMeta{
-	DefaultYaml:         defaultConfig,
-	NewPuller:           NewPuller,
-	NewRecorder:         NewRecorder,
-	RegisterGRPCHandler: RegisterService,
-	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+	DefaultYaml:              defaultConfig,
+	NewPuller:                NewPuller,
+	NewRecorder:              NewRecorder,
+	RegisterGRPCHandler:      pb.RegisterApiHandler,
+	ServiceDesc:              &pb.Api_ServiceDesc,
+	KitexRegisterGRPCHandler: RegisterService,
+	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{
 		// TODO FENG 添加服务名
 		ServiceName: "flv.svc",
 	},

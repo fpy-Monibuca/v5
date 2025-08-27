@@ -6,13 +6,16 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	"m7s.live/v5"
+	"m7s.live/v5/plugin/sei/pb"
 	sei "m7s.live/v5/plugin/sei/pkg"
 )
 
 var _ = m7s.InstallPlugin[SEIPlugin](m7s.PluginMeta{
-	NewTransformer:      sei.NewTransform,
-	RegisterGRPCHandler: RegisterService,
-	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+	NewTransformer:           sei.NewTransform,
+	RegisterGRPCHandler:      pb.RegisterApiHandler,
+	ServiceDesc:              &pb.Api_ServiceDesc,
+	KitexRegisterGRPCHandler: RegisterService,
+	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{
 		// TODO FENG 添加服务名
 		ServiceName: "sei.svc",
 	},
@@ -28,5 +31,7 @@ func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.Regis
 }
 
 type SEIPlugin struct {
+	pb.UnimplementedApiServer
+
 	m7s.Plugin
 }

@@ -1,0 +1,81 @@
+# 快速起步
+详情可参考 https://v4.monibuca.com/docs/guide/startup.html
+根据你的使用场景和个人偏好，使用 Monibuca 时，你可以选择是否自己编译启动工程。
+## 安装
+
+    官方提供已编译好的各个平台的二进制可执行文件（即绿色软件），所以无需安装任何其他软件即可运行。
+    如果需要自己编译启动工程，则需要安装 go1.21 以上版本。
+
+## 配置 go 环境
+
+    go 可以在https://golang.google.cn/dl 中下载到
+    国内需要执行 go env -w GOPROXY=https://goproxy.cn 来下载到被屏蔽的第三方库
+
+## 官方提供了最新版本的下载链接：
+
+    Linux
+    Linux-arm64
+    Mac
+    Mac-arm64
+    Windows
+
+## 运行
+可执行文件直接运行
+
+    Linux 例如下载到了/opt/m7s_linux_x86,则 cd /opt 然后 ./m7s_linux_x86
+    Mac 和 Linux 类似，需要注意的时候可能需要修改文件的可执行权限，也可以双击运行
+    Windows，直接双击 m7s_windows_x86.exe 即可启动
+
+## 运行多实例
+
+由于实例会监听 http 端口，所以如果需要运行多实例，就需要为每个实例指定不同的 http 端口，因此需要启动时指定配置文件，例如./m7s_linux_x86 -c config.yaml
+Docker 启动
+
+docker run -id -p 1935:1935 -p 8080:8080 -p 8443:8443 -p 554:554 -p 58200:58200 -p 5060:5060/udp -p 8000:8000/udp -p 9000:9000 langhuihui/monibuca:latest
+
+## 编译启动工程
+
+    git clone https://github.com/langhuihui/monibuca
+    cd monibuca
+    go run main.go
+
+## 创建启动工程
+
+可以观看视频教程：
+
+    从零启动 m7s V4
+
+    m7s v4 视频教程——插件引入
+
+## 使用
+
+m7s 默认已开启所有的插件，故已开始监听 rtmp、rtsp、gb28181 等所有协议的端口，可以直接推流到 m7s。
+推流
+通过 OBS，推到 rtmp://localhost/live/test
+通过 ffmpeg 和 rtmp
+
+ffmpeg -i [视频源] -c:v h264 -c:a aac -f flv rtmp://localhost/live/test
+
+通过 ffmpeg 和 rtsp
+
+    ffmpeg -i [视频源] -c:v h264 -c:a aac -f rtsp rtsp://localhost/live/test
+
+    通过 webrtc 测试页面推流，访问 http://localhost:8080/webrtc/test/publish
+    通过对摄像头配置 sip 服务器地址到本机，指定 5060 端口即可将设备流送入 m7s 中
+
+## 播放
+
+    播放详情请参考 播放问题汇总
+
+    通过访问 http://localhost:8080/preview/ 可以预览所有的流（多种协议预览页面）
+    通过 ffplay 可以播放 rtmp 流
+
+ffplay rtmp://localhost/live/test
+
+通过 ffplay 可以播放 rtsp 流
+
+ffplay rtsp://localhost/live/test
+
+通过 ffplay 可以播放 hls 流
+
+ffplay http://localhost:8080/hls/live/test.m3u8

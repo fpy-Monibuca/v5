@@ -6,13 +6,16 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	m7s "m7s.live/v5"
+	"m7s.live/v5/plugin/transcode/pb"
 	transcode "m7s.live/v5/plugin/transcode/pkg"
 )
 
 var _ = m7s.InstallPlugin[TranscodePlugin](m7s.PluginMeta{
-	NewTransformer:      transcode.NewTransform,
-	RegisterGRPCHandler: RegisterService,
-	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+	NewTransformer:           transcode.NewTransform,
+	RegisterGRPCHandler:      pb.RegisterApiHandler,
+	ServiceDesc:              &pb.Api_ServiceDesc,
+	KitexRegisterGRPCHandler: RegisterService,
+	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{
 		// TODO FENG 添加服务名
 		ServiceName: "transcode.svc",
 	},
@@ -28,6 +31,8 @@ func RegisterService(svr server.Server, plugin m7s.IPlugin, opts ...server.Regis
 }
 
 type TranscodePlugin struct {
+	pb.UnimplementedApiServer
+
 	m7s.Plugin
 	LogToFile string
 }

@@ -1,8 +1,11 @@
+//go:build kitex
+// +build kitex
+
 package m7s
 
 import (
 	"context"
-	item "gitee.com/fpy-go/kitex_proto/kitex_gen/example/shop/item"
+	"gitee.com/fpy-go/kitex_proto/kitex_gen/example/shop/item"
 	"gitee.com/fpy-go/kitex_proto/kitex_gen/example/shop/stock"
 	"gitee.com/fpy-go/kitex_proto/kitex_gen/example/shop/stock/stockservice"
 	"github.com/cloudwego/kitex/client"

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/cloudwego/kitex/server"
 	"io"
+	"m7s.live/v5/plugin/rtmp/pb"
 	"net"
 	"strings"
 
@@ -17,6 +18,7 @@ import (
 )
 
 type RTMPPlugin struct {
+	pb.UnimplementedApiServer
 	m7s.Plugin
 	ChunkSize int `default:"1024"`
 	KeepAlive bool
@@ -26,8 +28,10 @@ type RTMPPlugin struct {
 var _ = m7s.InstallPlugin[RTMPPlugin](m7s.PluginMeta{
 	DefaultYaml: `tcp:
   listenaddr: :1935`,
-	RegisterGRPCHandler: RegisterService,
-	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+	ServiceDesc:              &pb.Api_ServiceDesc,
+	RegisterGRPCHandler:      pb.RegisterApiHandler,
+	KitexRegisterGRPCHandler: RegisterService,
+	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{
 		// TODO FENG 添加服务名
 		ServiceName: "rtmp.svc",
 	},

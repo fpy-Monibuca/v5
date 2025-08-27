@@ -1,4 +1,5 @@
 //go:build kitex
+// +build kitex
 
 package m7s
 
@@ -9,6 +10,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	gatewayRuntime "github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"google.golang.org/grpc"
 	"net"
 	"net/http"
 	"net/url"
@@ -41,12 +44,14 @@ type (
 	AuthSubscriber = func(*Subscriber) *util.Promise
 
 	PluginMeta struct {
-		Name                string
-		Version             string //插件版本
-		Type                reflect.Type
-		DefaultYaml         DefaultYaml //默认配置
-		ServiceDesc         *rpcinfo.EndpointBasicInfo
-		RegisterGRPCHandler func(svr server.Server, plugin IPlugin, opts ...server.RegisterOption) error
+		Name                     string
+		Version                  string //插件版本
+		Type                     reflect.Type
+		DefaultYaml              DefaultYaml //默认配置
+		ServiceDesc              *grpc.ServiceDesc
+		RegisterGRPCHandler      func(context.Context, *gatewayRuntime.ServeMux, *grpc.ClientConn) error
+		KitexServiceDesc         *rpcinfo.EndpointBasicInfo
+		KitexRegisterGRPCHandler func(svr server.Server, plugin IPlugin, opts ...server.RegisterOption) error
 
 		NewPuller      PullerFactory
 		NewPusher      PusherFactory
@@ -218,10 +223,14 @@ func InstallPlugin[C iPlugin](options ...any) error {
 			meta.OnAuthPub = v
 		case AuthSubscriber:
 			meta.OnAuthSub = v
-		case *rpcinfo.EndpointBasicInfo:
+		case *grpc.ServiceDesc:
 			meta.ServiceDesc = v
-		case func(svr server.Server, plugin IPlugin, opts ...server.RegisterOption) error:
+		case func(context.Context, *gatewayRuntime.ServeMux, *grpc.ClientConn) error:
 			meta.RegisterGRPCHandler = v
+		case *rpcinfo.EndpointBasicInfo:
+			meta.KitexServiceDesc = v
+		case func(svr server.Server, plugin IPlugin, opts ...server.RegisterOption) error:
+			meta.KitexRegisterGRPCHandler = v
 		}
 	}
 	plugins = append(plugins, meta)
@@ -284,29 +293,31 @@ func (p *Plugin) disable(reason string) {
 
 func (p *Plugin) Start() (err error) {
 	s := p.Server
-	if p.Meta.ServiceDesc != nil && s.kitexServer != nil {
-		print("注册其它service到kitex")
+	if p.Meta.ServiceDesc != nil && s.grpcServer != nil {
+		s.grpcServer.RegisterService(p.Meta.ServiceDesc, p.handler)
+		if p.Meta.RegisterGRPCHandler != nil {
+			if err = p.Meta.RegisterGRPCHandler(p.Context, s.config.HTTP.GetGRPCMux(), s.grpcClientConn); err != nil {
+				p.disable(fmt.Sprintf("grpc %v", err))
+				return
+			} else {
+				p.Info("grpc handler registered")
+			}
+		}
+	}
+
+	if p.Meta.KitexServiceDesc != nil && s.kitexServer != nil {
+		p.Info("服务注册到kitex")
 		// 注册其它service到kitex
 		// stockService := new(StockServiceImpl)
 		//_ = kitexStockPb.RegisterService(s.kitexServer, stockService)
 		//_ = kitexGb28181Pb.RegisterService(s.kitexServer, s.Plugin.handler.(*plugin_gb28181pro.GB28181Plugin))
 
-		if err = p.Meta.RegisterGRPCHandler(s.kitexServer, p.handler); err != nil {
+		if err = p.Meta.KitexRegisterGRPCHandler(s.kitexServer, p.handler); err != nil {
 			p.disable(fmt.Sprintf("grpc %v", err))
 			return
 		} else {
 			p.Info("grpc handler registered")
 		}
-
-		//s.grpcServer.RegisterService(p.Meta.ServiceDesc, p.handler)
-		//if p.Meta.RegisterGRPCHandler != nil {
-		//	if err = p.Meta.RegisterGRPCHandler(p.Context, s.config.HTTP.GetGRPCMux(), s.grpcClientConn); err != nil {
-		//		p.disable(fmt.Sprintf("grpc %v", err))
-		//		return
-		//	} else {
-		//		p.Info("grpc handler registered")
-		//	}
-		//}
 	}
 	s.Plugins.Add(p)
 	if err = p.listen(); err != nil {

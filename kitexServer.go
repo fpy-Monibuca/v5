@@ -1,4 +1,5 @@
 //go:build kitex
+// +build kitex
 
 package m7s
 
@@ -7,11 +8,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gitee.com/fpy-go/kitex_proto/kitex_gen/example/shop/item/itemservice"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"log/slog"
 	"net"
@@ -107,6 +108,8 @@ type (
 		Subscribers       SubscriberCollection
 		LogHandler        MultiLogHandler
 		apiList           []string
+		grpcServer        *grpc.Server
+		grpcClientConn    *grpc.ClientConn
 		kitexServer       server.Server
 		lastSummaryTime   time.Time
 		lastSummary       *pb.SummaryResponse
@@ -354,21 +357,36 @@ func (s *Server) Start() (err error) {
 
 	var grpcServer *GRPCServer
 	if tcpConf.ListenAddr != "" {
-		var opts []grpc.ServerOption
-		// Add the auth interceptor
-		opts = append(opts, grpc.UnaryInterceptor(s.AuthInterceptor()))
-
 		kitexServer := kitexServer(tcpConf.ListenAddr)
 		s.kitexServer = kitexServer
 
+		// TODO me 如果需要放开grpc server，请放开
+		var opts []grpc.ServerOption
+		// Add the auth interceptor
+		opts = append(opts, grpc.UnaryInterceptor(s.AuthInterceptor()))
+		s.grpcServer = grpc.NewServer(opts...)
+		pb.RegisterApiServer(s.grpcServer, s)
+		pb.RegisterAuthServer(s.grpcServer, s)
+
+		s.grpcClientConn, err = grpc.DialContext(s.Context, tcpConf.ListenAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			s.Error("failed to dial", "error", err)
+			return
+		}
+		if err = pb.RegisterApiHandler(s.Context, mux, s.grpcClientConn); err != nil {
+			s.Error("register handler failed", "error", err)
+			return
+		}
+		if err = pb.RegisterAuthHandler(s.Context, mux, s.grpcClientConn); err != nil {
+			s.Error("register auth handler failed", "error", err)
+			return
+		}
 		grpcServer = &GRPCServer{s: s, tcpTask: tcpConf.CreateTCPWork(s.Logger, nil)}
 
-		// 不需要单独开启grpcServer
-		//if err = s.AddTask(grpcServer.tcpTask).WaitStarted(); err != nil {
-		//	s.Error("failed to listen", "error", err)
-		//	return
-		//}
-
+		if err = s.AddTask(grpcServer.tcpTask).WaitStarted(); err != nil {
+			s.Error("failed to listen", "error", err)
+			return
+		}
 	}
 
 	s.AddTask(&s.Records)
@@ -428,29 +446,27 @@ func (s *Server) Start() (err error) {
 }
 
 func kitexServer(listenAddr string) server.Server {
+	listenAddr = ":9999"
 	// 使用时请传入真实 etcd 的服务地址，本例中为 127.0.0.1:2379
 	r, err := etcd.NewEtcdRegistry([]string{"127.0.0.1:2379"})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	itemServiceImpl := new(ItemServiceImpl)
-	stockCli, err := NewStockClient(listenAddr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	itemServiceImpl.stockCli = stockCli
-
 	addr, _ := net.ResolveTCPAddr("tcp", listenAddr)
-	svr := itemservice.NewServer(itemServiceImpl, server.WithServiceAddr(addr),
+	var options []server.Option
+
+	options = append(options, server.WithServiceAddr(addr),
 		// 指定 Registry 与服务基本信息
 		server.WithRegistry(r),
 		server.WithServerBasicInfo(
 			&rpcinfo.EndpointBasicInfo{
 				ServiceName: "gb28181.com",
 			},
-		),
-	)
+		))
+	options = append(options, server.WithCompatibleMiddlewareForUnary())
+
+	svr := server.NewServer(options...)
 	return svr
 }
 
@@ -584,6 +600,8 @@ func (gRPC *GRPCServer) Dispose() {
 }
 
 func (gRPC *GRPCServer) Go() (err error) {
+	// TODO ME 如果需要放开grpc server，请放开注释
+	gRPC.s.grpcServer.Serve(gRPC.tcpTask.Listener)
 	return gRPC.s.kitexServer.Run()
 }
 

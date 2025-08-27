@@ -1,4 +1,5 @@
 //go:build !kitex
+// +build !kitex
 
 package m7s
 

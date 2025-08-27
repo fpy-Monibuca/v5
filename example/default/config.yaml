@@ -2,8 +2,13 @@ global:
   location:
     "^/hdl/(.*)": "/flv/$1"
   loglevel: debug
+  # 管理员界面配置
   admin:
-    enablelogin: false
+    enablelogin: false # 启用登录机制
+    filepath: admin.zip # 管理员界面文件路径
+    homepage: home # 管理员界面首页
+    # 用户列表,仅在启用登录机制时生效
+    users:
 srt:
   listenaddr: :6000
   passphrase: foobarfoobar
@@ -21,7 +26,7 @@ gb28181:
       ^gb_\d+/(.+)$: $1
 #      .* : $0
   platforms:
-    - enable: false  #是否启用平台
+    - enable: true  #是否启用平台
       name: "测试平台" #平台名称
       servergbid: "34020000002000000002" #上级平台GBID
       servergbdomain: "3402000000" #上级平台GB域
@@ -60,6 +65,8 @@ mp4:
 cascadeserver:
   quic:
     listenaddr: :44944
+  # 是否允许下级节点自动注册
+  autoregister: true      # 默认为true，允许自动注册
 # llhls:
 #   onpub:
 #     transform:
@@ -75,6 +82,9 @@ flv:
   onsub:
     pull:
       ^vod_flv_\d+/(.+)$: $1
+  subscribe:
+    writebuffersize: 4096  # 设置更大的写缓冲区
+    waittimeout: 60s  # 覆盖全局配置，FLV等待流超时改为60秒
 #   pull:
 #     live/test: https://livecb.alicdn.com/mediaplatform/afb241b3-408c-42dd-b665-04d22b64f9df.flv?auth_key=1734575216-0-0-c62721303ce751c8e5b2c95a2ec242a0&F=pc&source=34675810_null_live_detail&ali_flv_retain=2
 hls:
@@ -86,11 +96,15 @@ hls:
 #   onpub:
 #     transform:
 #       .* : 5s x 3
-#rtsp:
-#  pull:
-    # live/test: rtsp://admin:1qaz2wsx3EDC@giroro.tpddns.cn:1554/Streaming/Channels/101
-#    live/test: rtsp://admin:1qaz2wsx3EDC@localhost:8554/live/test
 
+rtsp:
+  enable: true
+  tcp: :8554
+  publish:
+    delayclosetimeout: 1s
+#  pull:
+#    live/test: rtsp://admin:1qaz2wsx3EDC@giroro.tpddns.cn:1554/Streaming/Channels/101
+#    live/test: rtsp://admin:1qaz2wsx3EDC@localhost:8554/live/test
 snap:
   enable: false
   onpub:
@@ -139,3 +153,14 @@ onvif:
   #   - ip: 192.168.1.2
   #     username: admin
   #     password: '456'
+
+# 转码
+#transcode:
+#  onpub:
+#    transform:
+#      ^live.+:
+#        input:
+#          mode: rtsp
+#        output:
+#          - target: rtmp://localhost/trans/$0/small
+#            conf: -loglevel debug -c:a aac -c:v libx264 -f flv -vf scale=1280:720 -b:v 2000k -b:a 128k

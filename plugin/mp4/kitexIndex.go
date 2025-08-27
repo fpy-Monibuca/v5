@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/cloudwego/kitex/server"
 	"io"
+	"m7s.live/v5/plugin/mp4/pb"
 	"net"
 	"net/http"
 	"strings"
@@ -52,6 +53,7 @@ func (m *MediaContext) Flush() (err error) {
 }
 
 type MP4Plugin struct {
+	pb.UnimplementedApiServer
 	m7s.Plugin
 	BeforeDuration           time.Duration `default:"30s" desc:"事件录像提前时长，不配置则默认30s"`
 	AfterDuration            time.Duration `default:"30s" desc:"事件录像结束时长，不配置则默认30s"`
@@ -68,9 +70,11 @@ const defaultConfig m7s.DefaultYaml = `publish:
 
 // var exceptionChannel = make(chan *Exception)
 var _ = m7s.InstallPlugin[MP4Plugin](m7s.PluginMeta{
-	DefaultYaml:         defaultConfig,
-	RegisterGRPCHandler: RegisterService,
-	ServiceDesc: &rpcinfo.EndpointBasicInfo{
+	DefaultYaml:              defaultConfig,
+	ServiceDesc:              &pb.Api_ServiceDesc,
+	RegisterGRPCHandler:      pb.RegisterApiHandler,
+	KitexRegisterGRPCHandler: RegisterService,
+	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{
 		// TODO FENG 添加服务名
 		ServiceName: "mp4.svc",
 	},

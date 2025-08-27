@@ -1,4 +1,5 @@
 //go:build kitex
+// +build kitex
 
 package plugin_gb28181pro
 
