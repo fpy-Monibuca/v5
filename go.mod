@@ -3,7 +3,7 @@ module m7s.live/v5
 go 1.23.11
 
 require (
-	gitee.com/fpy-go/kitex_proto v0.0.0-20250825090747-45ec1fcc7cf3
+	gitee.com/fpy-go/kitex_proto v0.0.0-20250829021046-2ebe32a920a6
 	github.com/IOTechSystems/onvif v1.2.0
 	github.com/VictoriaMetrics/VictoriaMetrics v1.102.0
 	github.com/asavie/xdp v0.3.3

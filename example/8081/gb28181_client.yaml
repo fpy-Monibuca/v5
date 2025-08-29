@@ -1,3 +1,169 @@
+global:
+  loglevel: debug
+  #disableall: true
+  http: :8081
+  tcp: :50052
 gb28181:
+  enable: true  # 是否启用GB28181协议
   serial: '34020000002000000002'
-  parent: udp:34020000001320000001@119.45.116.24:5060
+  #parent: udp:34020000001320000001@192.168.61.76:5060
+  mediaip: 192.168.61.76  #流媒体收流IP,外网情况下使用公网IP,内网情况下使用网卡IP,不要用127.0.0.1
+  sipip: 192.168.61.76  #SIP通讯IP,不管公网还是内网都使用本机网卡IP,不要用127.0.0.1
+  password: "hw1234567"
+  sip:
+    listenaddr:
+      - udp::5061
+  onsub:
+    pull:
+      ^\d{20}/\d{20}$: $0
+      ^gb_\d+/(.+)$: $1
+  platforms:
+    - enable: true  #是否启用平台
+      name: "测试上级平台" #平台名称
+      servergbid: "34020000002000000001" #上级平台GBID
+      servergbdomain: "3402000000" #上级平台GB域
+      serverip: 192.168.61.76 #上级平台IP
+      serverport: 5060 #上级平台端口
+      devicegbid: "34020000002000000002" #本平台设备GBID
+      deviceip: 192.168.61.76 #本平台设备IP
+      deviceport: 5061 #本平台设备端口
+      username: "34020000002000000002" #SIP账号
+      password: "hw1234567" #SIP密码
+      expires: 3600 #注册有效期，单位秒
+      keeptimeout: 60 #注册保持超时时间，单位秒
+      civilCode: "340200" #行政区划代码
+      manufacturer: "Monibuca" #设备制造商
+      model: "GB28181" #设备型号
+      address: "江苏南京" #设备地址
+      register_way: 1
+      platformchannels:
+        - platformservergbid: "34020000002000000001" #上级平台GBID
+          channeldbid: "34020000001320000002_34020000001320000002" #本平台通道DBID,格式为本平台设备ID_本平台通道ID
+mp4:
+  # enable: false
+  # publish:
+  #   delayclosetimeout: 3s
+  # onpub:
+  #   record:
+  #     ^live/.+:
+  #         fragment: 10s
+  #         filepath: record/$0
+  # type: fmp4
+  # pull:
+  #   live/test: /Users/dexter/Movies/1744963190.mp4
+  onsub:
+    pull:
+      ^vod_mp4_\d+/(.+)$: $1
+cascadeserver:
+  enable: false
+  quic:
+    listenaddr: :44944
+# llhls:
+#   onpub:
+#     transform:
+#       .* : 1s x 7
+flv:
+  # onpub:
+  #   record:
+  #     ^live/.+:
+  #         fragment: 1m
+  #         filepath: record/$0
+  publish:
+    delayclosetimeout: 3s
+  onsub:
+    pull:
+      ^vod_flv_\d+/(.+)$: $1
+#   pull:
+#     live/test: https://livecb.alicdn.com/mediaplatform/afb241b3-408c-42dd-b665-04d22b64f9df.flv?auth_key=1734575216-0-0-c62721303ce751c8e5b2c95a2ec242a0&F=pc&source=34675810_null_live_detail&ali_flv_retain=2
+hls:
+# onsub:
+#   pull:
+#     ^vod_hls_\d+/(.+)$: $1
+# pull:
+#   live/test: https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear3/prog_index.m3u8
+#   onpub:
+#     transform:
+#       .* : 5s x 3
+#rtsp:
+#  pull:
+# live/test: rtsp://admin:1qaz2wsx3EDC@giroro.tpddns.cn:1554/Streaming/Channels/101
+#    live/test: rtsp://admin:1qaz2wsx3EDC@localhost:8554/live/test
+
+snap:
+  enable: false
+  onpub:
+    transform:
+      .+:
+        output:
+          -   watermark:
+                text: "abcd"              # 水印文字内容
+                fontpath: /Users/dexter/Library/Fonts/MapleMono-NF-CN-Medium.ttf          # 水印字体文件路径
+                fontcolor: "rgba(255,165,0,1)" # 水印字体颜色，支持rgba格式
+                fontsize: 36          # 水印字体大小
+                offsetx: 0           # 水印位置X偏移
+                offsety: 0           # 水印位置Y偏移
+              timeinterval: 1s   # 截图时间间隔
+              savepath: "snaps"  # 截图保存路径
+              iframeinterval: 3  # 间隔多少帧截图
+              querytimedelta: 3  # 查询截图时允许的最大时间差（秒）
+
+crypto:
+  enable: false
+  isstatic: false
+  algo: aes_ctr # 加密算法 支持 aes_ctr xor_c
+  encryptlen: 1024
+  secret:
+    key: your key
+    iv: your iv
+  onpub:
+    transform:
+      .* : $0
+onvif:
+  enable: false
+  discoverinterval: 3 # 发现设备的间隔，单位秒，默认30秒，建议比rtsp插件的重连间隔大点
+  autopull: true
+  autoadd: true
+  interfaces: # 设备发现指定网卡，以及该网卡对应IP段的全局默认账号密码，支持多网卡
+    - interfacename: 以太网  # 网卡名称 或者"以太网" "eth0"等，使用ipconfig 或者 ifconfig 查看网卡名称
+      username: admin # onvif 账号
+      password: admin # onvif 密码
+    # - interfacename: WLAN 2 # 网卡2
+    #   username: admin
+    #   password: admin
+  # devices: # 可以给指定设备配置单独的密码
+  #   - ip: 192.168.1.1
+  #     username: admin
+  #     password: '123'
+  #   - ip: 192.168.1.2
+  #     username: admin
+  #     password: '456'
+
+webrtc:
+  port: tcp:9001 # 监听端口
+
+rtmp:
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :1936 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+
+rtsp:
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :555 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  udpport: 20001-30000 # 媒体端口范围

@@ -1199,7 +1199,7 @@ func (gb *GB28181Plugin) GetPlatform(ctx context.Context, req *pb.GetPlatformReq
 	}
 
 	var platform gb28181.PlatformModel
-	if err := gb.DB.First(&platform, req.ServerGBID).Error; err != nil {
+	if err := gb.DB.First(&platform, req.Id).Error; err != nil {
 		resp.Code = 404
 		resp.Message = "platform not found"
 		return resp, nil
@@ -1353,7 +1353,7 @@ func (gb *GB28181Plugin) DeletePlatform(ctx context.Context, req *pb.DeletePlatf
 	}
 
 	// 删除平台
-	if err := gb.DB.Delete(&gb28181.PlatformModel{}, req.ServerGBID).Error; err != nil {
+	if err := gb.DB.Delete(&gb28181.PlatformModel{}, req.Id).Error; err != nil {
 		resp.Code = 500
 		resp.Message = fmt.Sprintf("failed to delete platform: %v", err)
 		return resp, nil

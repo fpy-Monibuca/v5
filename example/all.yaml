@@ -1,0 +1,2085 @@
+global:
+  # 管理员界面配置
+  admin:
+    enablelogin: false # 启用登录机制
+    filepath: admin.zip # 管理员界面文件路径
+    homepage: home # 管理员界面首页
+    # 用户列表,仅在启用登录机制时生效
+    users:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  disableall: false # 禁用所有插件
+  enableauth: false # 启用鉴权
+  fataldir:
+    fatal:
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  # HTTP路由转发规则,key为正则表达式,value为目标地址
+  location:
+    ^/hdl/(.*): /flv/$1
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip:
+    "":
+  publicipv6:
+    "":
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  pullproxy: []:
+  pulseinterval: 5s # 心跳事件间隔
+  pushproxy: []:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  # 流别名
+  streamalias:
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+crypto:
+  algo: aes_ctr # 加密算法
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  encryptlen: 1024 # 加密字节长度
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  isstatic: false # 是否静态密钥
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  # 密钥配置
+  secret:
+    iv: your iv # 加密向量
+    key: your key # 加密密钥
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+logrotate:
+  days: 1 # 日志文件保留天数
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  formatter: 2006-01-02T15 # 日志文件名格式
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  level: info # 日志级别
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  maxfiles: 7 # 最大日志文件数量
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  path: ./logs # 日志文件存放目录
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  size: 1048576 # 日志文件大小，单位：字节
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+monitor:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+hls:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+llhls:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+preview:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+cascadeclient:
+  autopush: false # 自动推流到上级
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  # 访问控制
+  relayapi:
+    # 允许转发的路径前缀
+    allow:
+    # 禁止转发的路径前缀
+    deny:
+  secret: "" # 连接秘钥
+  server: "" # 上级服务器
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+cascadeserver:
+  autoregister: true # 下级自动注册
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  # 访问控制
+  relayapi:
+    # 允许转发的路径前缀
+    allow:
+    # 禁止转发的路径前缀
+    deny:
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  unimplementedserverserver: {}:
+flv:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  path: ""
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+mp4:
+  afterduration: 30s # 事件录像结束时长，不配置则默认30s
+  autooverwritediskpercent: 0 # 自动覆盖功能磁盘占用上限值，超过上限时连续录像自动删除日有录像，事件录像自动删除非重要事件录像，删除规则为删除距离当日最久日期的连续录像或非重要事件录像。
+  autorecovery: false # 是否自动恢复
+  beforeduration: 30s # 事件录像提前时长，不配置则默认30s
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  diskmaxpercent: 90 # 硬盘使用百分之上限值，超上限后触发报警，并停止当前所有磁盘写入动作。
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  eventrecordfilepath: "" # 事件录像存放地址
+  exceptionposturl: "" # 第三方异常上报地址
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  recordfileexpiredays: 0 # 录像自动删除的天数,0或未设置表示不自动删除
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+rtmp:
+  c2: false
+  chunksize: 1024
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  keepalive: false
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+gb28181:
+  automigrate: true # 自动迁移数据库结构并初始化根组织
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  mediaip: "" # 流媒体IP，用于接收流
+  mediaport: 10001-20000 # 媒体端口范围
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  parent: "" # 父级设备
+  username: ""
+  password: "hw1234567"
+  platforms: []:
+  position:
+    expires: 3600s # 订阅周期
+    interval: 6s # 订阅间隔
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  realm: "3402000000" # sip 服务域
+  serial: "34020000002000000001" # sip 服务 id
+  sip:
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: []:
+    listentlsaddr: []:
+  sipip: "" # sip发送命令的IP，一般是本地IP，多网卡时需要配置正确的IP
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+onvif:
+  autoadd: false # 是否自动添加发现的设备
+  autopull: false # 是否自动拉流
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  # 设备配置
+  devices:
+  discoverinterval: 3 # 设备发现间隔（秒），0表示不自动发现
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  # 网卡配置
+  interfaces:
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+rtsp:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  udpport: 20001-30000 # 媒体端口范围
+sei:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+snap:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  querytimedelta: 3 # 查询截图时允许的最大时间差（秒）
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+srt:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  listenaddr: ""
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  passphrase: ""
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+stress:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false:
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+transcode:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  logtofile: ""
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false:
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+webrtc:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  enabledc: true # 是否启用DataChannel
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  # ice服务器配置
+  iceservers:
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  # MimeType过滤列表，为空则不过滤
+  mimetype:
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  pli: 2s # 发送PLI请求间隔
+  port: tcp:9000 # 监听端口
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+webtransport:
+  # 允许的来源域名列表
+  allowedorigins:
+  certfile: "" # 证书文件路径
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  keyfile: "" # 密钥文件路径
+  listenaddr: :4433 # 监听地址
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+debug:
+  db:
+    dbtype: sqlite # 数据库类型
+    dsn: m7s.db # 数据库文件路径
+  enable: true # 在global配置disableall时能启用特定插件
+  enableauth: false # 启用鉴权
+  enablechart: true # 是否启用图表功能
+  grfout: grf.out # grf输出文件
+  hook: {}:
+  http:
+    certfile: "" # HTTPS证书文件
+    cors: true # 是否自动添加CORS头
+    idletimeout: 0s # 空闲超时
+    keyfile: "" # HTTPS密钥文件
+    listenaddr: :8080 # 监听地址
+    listenaddrtls: :8443 # 监听地址HTTPS
+    password: "" # 基本身份认证密码
+    readtimeout: 0s # 读取超时
+    username: "" # 基本身份认证用户名
+    writetimeout: 0s # 写入超时
+  loglevel: debug # 可选值: trace:跟踪,debug:调试,info:信息,warn:警告,error:错误
+  onpub:
+    push: {}:
+    record: {}:
+    transform: {}:
+  onsub:
+    pull: {}:
+    transform: {}:
+  profile: "" # 采集profile存储文件
+  profileduration: 10s # profile持续时间
+  publicip: ""
+  publicipv6: ""
+  publish:
+    buffertime: 0s # 缓冲时长，0代表取最近关键帧
+    delayclosetimeout: 0s # 延迟自动关闭（无订阅时）
+    dump: false
+    idletimeout: 0s # 空闲(无订阅)超时
+    key: "" # 发布鉴权key
+    kickexist: false # 是否踢掉已经存在的发布者
+    maxcount: 0 # 最大发布者数量
+    maxfps: 60 # 最大FPS
+    pausetimeout: 30s # 暂停超时时间
+    pubaudio: true # 是否发布音频
+    publishtimeout: 10s # 发布无数据超时
+    pubtype: server # 发布类型
+    pubvideo: true # 是否发布视频
+    relaymode: remux # 转发模式 # 可选值: remux:转格式,relay:纯转发,mix:混合转发
+    # RingSize范围
+    ringsize:
+      - 20
+      - 1024
+    scale: 1 # 缩放倍数
+    speed: 1 # 发送速率
+    waitclosetimeout: 0s # 延迟自动关闭（等待重连）
+  pull: {}:
+  quic:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+  subscribe:
+    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
+    iframeonly: false # 只要关键帧
+    key: "" # 订阅鉴权key
+    maxcount: 0 # 最大订阅者数量
+    subaudio: true # 是否订阅音频
+    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
+    subtype: "" # 订阅类型
+    subvideo: true # 是否订阅视频
+    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
+    waittimeout: 10s # 等待流超时时间
+    waittrack: video # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
+    writebuffersize: 0 # 写缓冲大小
+  tcp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keepalive: false # 是否启用KeepAlive
+    keyfile: "" # 私钥文件
+    listenaddr: :50051 # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listenaddrtls: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡
+    listennum: 0 # 同时并行监听数量，0为CPU核心数量
+    nodelay: false # 是否禁用Nagle算法
+    readbuffer: 0 # 读缓冲区大小
+    writebuffer: 0 # 写缓冲区大小
+  transform: {}:
+  udp:
+    autolisten: true # 是否自动监听
+    certfile: "" # 证书文件
+    keyfile: "" # 私钥文件
+    listenaddr: "" # 监听地址，格式为ip:port，ip 可省略默认监听所有网卡

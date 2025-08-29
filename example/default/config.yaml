@@ -15,8 +15,12 @@ srt:
 gb28181:
   enable: true  # 是否启用GB28181协议
   autoinvite: false #建议使用false，开启后会自动邀请设备推流
-  mediaip: 192.168.1.21  #流媒体收流IP,外网情况下使用公网IP,内网情况下使用网卡IP,不要用127.0.0.1
-  sipip: 192.168.1.21  #SIP通讯IP,不管公网还是内网都使用本机网卡IP,不要用127.0.0.1
+  mediaip: 192.168.61.76  #流媒体收流IP,外网情况下使用公网IP,内网情况下使用网卡IP,不要用127.0.0.1
+  sipip: 192.168.61.76  #SIP通讯IP,不管公网还是内网都使用本机网卡IP,不要用127.0.0.1
+  realm: "3402000000" # sip 服务域
+  serial: "34020000002000000001" # sip 服务 id
+  username: ""
+  password: "hw1234567"
   sip:
     listenaddr:
           - udp::5060
@@ -26,8 +30,8 @@ gb28181:
       ^gb_\d+/(.+)$: $1
 #      .* : $0
   platforms:
-    - enable: true  #是否启用平台
-      name: "测试平台" #平台名称
+    - enable: false  #是否启用平台
+      name: "测试上级平台" #平台名称
       servergbid: "34020000002000000002" #上级平台GBID
       servergbdomain: "3402000000" #上级平台GB域
       serverip: 192.168.1.106 #上级平台IP

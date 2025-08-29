@@ -27,6 +27,7 @@ import (
 	"m7s.live/v5/pkg/config"
 	"m7s.live/v5/pkg/task"
 	"m7s.live/v5/pkg/util"
+
 	gb28181 "m7s.live/v5/plugin/gb28181/pkg"
 )
 
@@ -44,6 +45,8 @@ type PositionConfig struct {
 
 // GB28181Plugin implements the last service interface defined in the IDL.
 type GB28181Plugin struct {
+	pb.UnimplementedApiServer
+
 	m7s.Plugin
 	Serial         string `default:"34020000002000000001" desc:"sip 服务 id"` //sip 服务器 id, 默认 34020000002000000001
 	Realm          string `default:"3402000000" desc:"sip 服务域"`             //sip 服务器域，默认 3402000000
@@ -69,8 +72,8 @@ type GB28181Plugin struct {
 }
 
 var _ = m7s.InstallPlugin[GB28181Plugin](m7s.PluginMeta{
-	// TODO ME 如果需要放开grpc server，请补充
-	RegisterGRPCHandler:      nil,
+	// TODO ME 如果需要放开grpc server，请补充(注意，kitex和grpc不能同时配置)
+	RegisterGRPCHandler:      pb.RegisterApiHandler,
 	ServiceDesc:              &pb.Api_ServiceDesc,
 	KitexRegisterGRPCHandler: RegisterService,
 	KitexServiceDesc: &rpcinfo.EndpointBasicInfo{

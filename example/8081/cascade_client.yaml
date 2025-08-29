@@ -6,42 +6,9 @@ global:
 cascadeclient:
   enable: true
   server: localhost:44944
-  autopush: true
   secret: dexter
   onsub:
     pull:
       .*: m7s://$0
-  subscribe:
-    buffertime: 0s # 缓冲时长,从缓冲时长的关键帧开始播放
-    iframeonly: false # 只要关键帧
-    key: "" # 订阅鉴权key
-    maxcount: 0 # 最大订阅者数量
-    subaudio: true # 是否订阅音频
-    submode: 0 # 订阅模式 # 可选值: 0:实时模式,1:首屏后不进行追赶
-    subtype: "" # 订阅类型
-    subvideo: true # 是否订阅视频
-    syncmode: 1 # 同步模式 # 可选值: 0:采用时间戳同步,1:采用写入时间同步
-    waittimeout: 10s # 等待流超时时间
-    waittrack: all # 等待轨道 # 可选值: audio:等待音频,video:等待视频,all:等待全部
-    writebuffersize: 1000 # 写缓冲大小
-rtmp:
+flv:
   enable: true
-  tcp: :1936
-
-#flv:
-#  enable: true
-#  onpub:
-#    record:
-#      ^live/.+:
-#         fragment: 1m
-#         filepath: record/$0
-#  publish:
-#    delayclosetimeout: 3s
-#  onsub:
-#    pull:
-#      ^vod_flv_\d+/(.+)$: $1
-#  subscribe:
-#    writebuffersize: 4096  # 设置更大的写缓冲区
-#    waittimeout: 60s  # 覆盖全局配置，FLV等待流超时改为60秒
-#   pull:
-#     live/test: https://livecb.alicdn.com/mediaplatform/afb241b3-408c-42dd-b665-04d22b64f9df.flv?auth_key=1734575216-0-0-c62721303ce751c8e5b2c95a2ec242a0&F=pc&source=34675810_null_live_detail&ali_flv_retain=2
